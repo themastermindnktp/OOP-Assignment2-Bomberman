@@ -4,10 +4,6 @@ import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.LayeredEntity;
-import uet.oop.bomberman.entities.character.Bomber;
-import uet.oop.bomberman.entities.character.Character;
-import uet.oop.bomberman.entities.character.enemy.Enemy;
-import uet.oop.bomberman.entities.tile.Grass;
 import uet.oop.bomberman.entities.tile.Portal;
 import uet.oop.bomberman.entities.tile.Wall;
 import uet.oop.bomberman.entities.tile.destroyable.Brick;
@@ -23,8 +19,8 @@ public class Flame extends Entity {
 	protected int xOrigin, yOrigin;
 	protected FlameSegment[] _flameSegments = new FlameSegment[0];
 
-	int[] gapX = {0, 1, 0, -1};
-	int[] gapY = {-1, 0, 1, 0};
+	private int[] gapX = {0, 1, 0, -1};
+	private int[] gapY = {-1, 0, 1, 0};
 
 	/**
 	 *
@@ -56,18 +52,18 @@ public class Flame extends Entity {
 		/**
 		 * biến last dùng để đánh dấu cho segment cuối cùng
 		 */
-		// DONETODO: tạo các segment dưới đây
 		for (int i = 1; i <= radius; i++) {
 			Entity entity = _board.getEntityAt(Coordinates.tileToPixel(_x + i*gapX[_direction]), Coordinates.tileToPixel(_y + i*gapY[_direction]));
-			//System.out.println((int) _x + i * gapX[_direction] + " " + ((int) _y + i * gapY[_direction]) + " " + entity);
 			if (entity instanceof LayeredEntity) {
 				LayeredEntity layeredEntity = (LayeredEntity) entity;
 				entity = layeredEntity.getTopEntity();
-				if (entity instanceof Brick || entity instanceof Item)
+				if (entity instanceof Item)
 				{
 					entity.remove();
 					layeredEntity.update();
 				}
+				else
+				if (entity instanceof Brick) ((Brick) entity).destroy();
 			}
 			_flameSegments[i - 1] = new FlameSegment((int) _x + i * gapX[_direction], (int) _y + i * gapY[_direction], _direction, (i == radius));
 		}
@@ -83,8 +79,11 @@ public class Flame extends Entity {
 
 			Entity entity = _board.getEntityAt((_x + i*gapX[_direction])*Game.TILES_SIZE, (_y + i*gapY[_direction])*Game.TILES_SIZE );
 			if (entity instanceof Portal) return (i - 1);
-			if (entity instanceof LayeredEntity && ((LayeredEntity) entity).getTopEntity() instanceof Brick) return i;
-			if (entity instanceof Wall) return (i - 1);
+			if (entity instanceof LayeredEntity)
+				if (((LayeredEntity) entity).getTopEntity() instanceof Brick) return i;
+				else
+				if(((LayeredEntity) entity).getTopEntity() instanceof Portal) return i - 1;
+			if (entity instanceof Wall) return i - 1;
 		}
 		return radius;
 	}

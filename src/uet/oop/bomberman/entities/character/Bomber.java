@@ -3,6 +3,7 @@ package uet.oop.bomberman.entities.character;
 import sun.security.pkcs11.wrapper.CK_SSL3_KEY_MAT_PARAMS;
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Game;
+import uet.oop.bomberman.audio.Sound;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.LayeredEntity;
 import uet.oop.bomberman.entities.bomb.Bomb;
@@ -100,15 +101,10 @@ public class Bomber extends Character {
      * Kiểm tra xem có đặt được bom hay không? nếu có thì đặt bom tại vị trí hiện tại của Bomber
      */
     private void detectPlaceBomb() {
-        // DONETODO: kiểm tra xem phím điều khiển đặt bom có được gõ và giá trị _timeBetweenPutBombs, Game.getBombRate() có thỏa mãn hay không
-        // TODO:  Game.getBombRate() sẽ trả về số lượng bom có thể đặt liên tiếp tại thời điểm hiện tại
-        // TODO: _timeBetweenPutBombs dùng để ngăn chặn Bomber đặt 2 Bomb cùng tại 1 vị trí trong 1 khoảng thời gian quá ngắn
-        // TODO: nếu 3 điều kiện trên thỏa mãn thì thực hiện đặt bom bằng placeBomb()
-        // TODO: sau khi đặt, nhớ giảm số lượng Bomb Rate và reset _timeBetweenPutBombs về 0
         if (_input.space && _timeBetweenPutBombs == 0 && Game.getBombRate() > 0) {
             placeBomb(Coordinates.pixelToTile(_x + 5), Coordinates.pixelToTile(_y - 8));
             Game.addBombRate(-1);
-            _timeBetweenPutBombs = 30;
+            _timeBetweenPutBombs = 15;
         }
     }
 
@@ -126,6 +122,7 @@ public class Bomber extends Character {
                 if(xc - 15 <= cur.getX() && cur.getX() <= xc + 15 && yc + 1 <= cur.getY() && cur.getY() <= yc + Game.TILES_SIZE + 15)
                     ((Enemy) cur).addBomb(bomb);
         }
+        Sound.makeSound("SetBomb");
     }
 
     protected void checkOutOfBomb()
@@ -163,6 +160,7 @@ public class Bomber extends Character {
     @Override
     public void kill() {
         if (!_alive) return;
+        Sound.makeSound("BomberDie");
         _alive = false;
         _board.add_live(-1);
     }
@@ -246,11 +244,15 @@ public class Bomber extends Character {
                     if (item instanceof BombItem) Game.addBombRate(1);
                     if (item instanceof FlameItem) Game.addBombRadius(1);
                     if (item instanceof SpeedItem && Game.getBomberSpeed() == 1) Game.addBomberSpeed(1);
+                    Sound.makeSound("CollectItem");
                     item.remove();
                     layeredEntity.update();
                 }
                 if (layeredEntity.getTopEntity() instanceof Portal)
+                {
+                    Sound.makeSound("EnterPortal");
                     _board.nextLevel();
+                }
             }
         }
     }

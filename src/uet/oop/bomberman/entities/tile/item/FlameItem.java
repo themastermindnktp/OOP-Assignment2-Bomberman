@@ -9,10 +9,4 @@ public class FlameItem extends Item {
 		super(x, y, sprite);
 	}
 
-//	@Override
-//	public boolean collide(Entity e) {
-//		// TODO: xử lý Bomber ăn Item
-//		return false;
-//	}
-
 }

@@ -12,10 +12,4 @@ public class Wall extends Tile {
 		super(x, y, sprite);
 	}
 
-//	@Override
-//	public boolean collide (Entity e) {
-//		if (e instanceof Bomber) return true;
-//		if (e instanceof Enemy) return true;
-//		return false;
-//	}
 }

@@ -1,11 +1,13 @@
 package uet.oop.bomberman;
 
+import uet.oop.bomberman.audio.BackgroundMusic;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.Message;
 import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.bomb.FlameSegment;
 import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.entities.character.Character;
+import uet.oop.bomberman.entities.character.enemy.Enemy;
 import uet.oop.bomberman.exceptions.LoadLevelException;
 import uet.oop.bomberman.graphics.IRender;
 import uet.oop.bomberman.graphics.Screen;
@@ -55,7 +57,7 @@ public class Board implements IRender {
 	@Override
 	public void update() {
 		if( _game.isPaused() ) return;
-		
+		BackgroundMusic.playMusic();
 		updateEntities();
 		updateCharacters();
 		updateBombs();
@@ -94,6 +96,7 @@ public class Board implements IRender {
 	public void add_live(int i) { _live += i; }
 
 	public void restartLevel() {
+		BackgroundMusic.stopMusic();
 		_points = _previousPoints;
 		Game.setBomberSpeed(_previousBomberSpeed);
 		Game.setBombRate(_previousBombRate);
@@ -113,6 +116,7 @@ public class Board implements IRender {
 		_characters.clear();
 		_bombs.clear();
 		_messages.clear();
+		Enemy.setNumberOfEnemy(0);
 		_previousPoints = _points;
 		_previousBomberSpeed = Game.getBomberSpeed();
 		_previousBombRate = Game.getBombRadius();
@@ -130,25 +134,21 @@ public class Board implements IRender {
 	
 	protected void detectEndGame() {
 		if(_time <= 0)
-			endGame();
+		{
+			add_live(-1);
+			if (_live == 0) endGame();
+			else restartLevel();
+		}
 	}
 	
 	public void endGame() {
 		_screenToShow = 1;
+		BackgroundMusic.stopMusic();
 		_game.resetScreenDelay();
 		_game.pause();
 	}
 	
-	public boolean detectNoEnemies() {
-		int total = 0;
-		for (int i = 0; i < _characters.size(); i++) {
-			if(_characters.get(i) instanceof Bomber == false)
-				++total;
-		}
-		
-		return total == 0;
-	}
-	
+
 	public void drawScreen(Graphics g) {
 		switch (_screenToShow) {
 			case 1:
@@ -248,7 +248,6 @@ public class Board implements IRender {
 	public Entity getEntityAt(double x, double y) {
 		int xc = Coordinates.pixelToTile(x);
 		int yc = Coordinates.pixelToTile(y);
-//		System.out.println(xc + " " + yc + " " + _entities[xc + yc*_levelLoader.getWidth()]);
 		return _entities[xc + yc * _levelLoader.getWidth()];
 	}
 	

@@ -1,11 +1,9 @@
 package uet.oop.bomberman.entities.bomb;
 
-import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.level.Coordinates;
-
 
 public class FlameSegment extends Entity {
 
@@ -65,11 +63,6 @@ public class FlameSegment extends Entity {
 	@Override
 	public void update() {}
 
-//	@Override
-//	public boolean collide(Entity e) {
-//		// TODO: xử lý khi FlameSegment va chạm với Character
-//		return true;
-//	}
 	
 
 }

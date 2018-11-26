@@ -2,6 +2,7 @@ package uet.oop.bomberman.entities.character.enemy;
 
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Game;
+import uet.oop.bomberman.audio.Sound;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.LayeredEntity;
 import uet.oop.bomberman.entities.Message;
@@ -41,14 +42,14 @@ public abstract class Enemy extends Character {
 
 	private static int _numberOfEnemy = 0;
 
-	private ArrayList<Bomb> _onBomb = new ArrayList<Bomb>();
+	protected ArrayList<Bomb> _onBomb = new ArrayList<Bomb>();
 
-	private double[] gapX1 = {0, 16, 0, -0.5};
-	private double[] gapY1 = {-16.5, -1, 0, -1};
-	private double[] gapX2 = {2.5, 13.5, 13, 2};
-	private double[] gapY2 = {-13.5, -14, -3, -2.5};
-	private double[] gapX3 = {0.5, 15.5, 15, 0};
-	private double[] gapY3 = {-15.5, -16, -1, -0.5};
+	protected double[] gapX1 = {0, 16, 0, -0.5};
+	protected double[] gapY1 = {-16.5, -1, 0, -1};
+	protected double[] gapX2 = {2.5, 13.5, 13, 2};
+	protected double[] gapY2 = {-13.5, -14, -3, -2.5};
+	protected double[] gapX3 = {0.5, 15.5, 15, 0};
+	protected double[] gapY3 = {-15.5, -16, -1, -0.5};
 
 	public Enemy(int x, int y, Board board, Sprite dead, double speed, int points) {
 		super(x, y, board);
@@ -64,6 +65,10 @@ public abstract class Enemy extends Character {
 		
 		_timeAfter = 20;
 		_deadSprite = dead;
+	}
+
+	public static void setNumberOfEnemy(int _numberOfEnemy) {
+		Enemy._numberOfEnemy = _numberOfEnemy;
 	}
 
 	public static int getNumberOfEnemy() {
@@ -139,8 +144,6 @@ public abstract class Enemy extends Character {
 			_direction = _ai.calculateDirection();
 		}
 
-		_direction = 3;
-
 		switch (_direction){
 			case 0: dy--; break;
 			case 1: dx++; break;
@@ -180,16 +183,6 @@ public abstract class Enemy extends Character {
 			_x += xa;
 		}
 	}
-
-	@Override
-	public boolean canMove(double x, double y) {
-		int xc = (int) (x + gapX1[_direction]);
-		int yc = (int) (y + gapY1[_direction]);
-		Bomb bomb = _board.getBombAt(Coordinates.pixelToTile(xc), Coordinates.pixelToTile(yc));
-		if (bomb != null && _onBomb.indexOf(bomb) == -1) return false;
-		return FileLevelLoader.emptyCell(xc, yc, _board);
-	}
-
 	
 	@Override
 	public void kill() {
@@ -202,6 +195,7 @@ public abstract class Enemy extends Character {
 
 		Message msg = new Message("+" + _points, getXMessage(), getYMessage(), 2, Color.white, 14);
 		_board.addMessage(msg);
+		Sound.makeSound("EnemyDie");
 	}
 	
 	
@@ -216,5 +210,4 @@ public abstract class Enemy extends Character {
 	}
 	
 	protected abstract void chooseSprite();
-
 }

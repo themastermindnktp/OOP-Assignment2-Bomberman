@@ -54,11 +54,5 @@ public class LayeredEntity extends Entity {
 	public void addBeforeTop(Entity e) {
 		_entities.add(_entities.size() - 1, e);
 	}
-	
-//	@Override
-//	public boolean collide(Entity e) {
-//		// TODO: lấy entity trên cùng ra để xử lý va chạm
-//		return false;
-//	}
 
 }

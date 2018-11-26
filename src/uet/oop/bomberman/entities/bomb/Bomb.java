@@ -2,25 +2,22 @@ package uet.oop.bomberman.entities.bomb;
 
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Game;
+import uet.oop.bomberman.audio.Sound;
 import uet.oop.bomberman.entities.AnimatedEntitiy;
-import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.entities.character.Character;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
-import uet.oop.bomberman.level.Coordinates;
 
 import java.util.Iterator;
 
 public class Bomb extends AnimatedEntitiy {
 
 	protected double _timeToExplode = 120; //2 seconds
-	public int _timeAfter = 20;
+	public int _timeAfter = 10;
 	
 	protected Board _board;
 	protected Flame[] _flames;
 	protected boolean _exploded = false;
-	protected boolean _allowedToPassThru = true;
 	
 	public Bomb(int x, int y, Board board) {
 		_x = x;
@@ -89,6 +86,7 @@ public class Bomb extends AnimatedEntitiy {
 		_flames = new Flame[4];
 		for (int i = 0 ; i < 4; i++)
 			_flames[i] = new Flame((int) _x, (int) _y, i, Game.getBombRadius(), _board);
+		Sound.makeSound("Explode");
 	}
 	
 	public FlameSegment flameAt(int x, int y) {
