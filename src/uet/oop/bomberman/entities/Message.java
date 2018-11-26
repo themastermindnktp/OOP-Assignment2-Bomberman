@@ -60,10 +60,10 @@ public class Message extends Entity {
 	public void render(Screen screen) {
 	}
 
-	@Override
-	public boolean collide(Entity e) {
-		return true;
-	}
+//	@Override
+//	public boolean collide(Entity e) {
+//		return true;
+//	}
 	
 	
 }

@@ -131,10 +131,6 @@ public abstract class Enemy extends Character {
 
 	@Override
 	public void calculateMove() {
-		// DONETODO: Tính toán hướng đi và di chuyển Enemy theo _ai và cập nhật giá trị cho _direction
-		// DONETODO: sử dụng canMove() để kiểm tra xem có thể di chuyển tới điểm đã tính toán hay không
-		// DONETODO: sử dụng move() để di chuyển
-		// DONETODO: nhớ cập nhật lại giá trị cờ _moving khi thay đổi trạng thái di chuyển
 		int dx = 0, dy = 0;
 		AILow _ai = new AILow();
 		int xi = (int) _x;
@@ -142,6 +138,8 @@ public abstract class Enemy extends Character {
 		if (xi == _x && yi == _y && xi % 16 == 0 && yi % 16 == 0) {
 			_direction = _ai.calculateDirection();
 		}
+
+		_direction = 3;
 
 		switch (_direction){
 			case 0: dy--; break;
@@ -185,7 +183,6 @@ public abstract class Enemy extends Character {
 
 	@Override
 	public boolean canMove(double x, double y) {
-		// DONETODO: kiểm tra có đối tượng tại vị trí chuẩn bị di chuyển đến và có thể di chuyển tới đó hay không
 		int xc = (int) (x + gapX1[_direction]);
 		int yc = (int) (y + gapY1[_direction]);
 		Bomb bomb = _board.getBombAt(Coordinates.pixelToTile(xc), Coordinates.pixelToTile(yc));
@@ -193,16 +190,6 @@ public abstract class Enemy extends Character {
 		return FileLevelLoader.emptyCell(xc, yc, _board);
 	}
 
-	@Override
-	public boolean collide(Entity e) {
-		// DONETODO: xử lý va chạm với Flame
-		// DONETODO: xử lý va chạm với Bomber
-		if (e instanceof  Flame) {
-			this.kill();
-			return true;
-		}
-		return false;
-	}
 	
 	@Override
 	public void kill() {

@@ -80,14 +80,12 @@ public class Bomb extends AnimatedEntitiy {
 	protected void explode() {
 		_exploded = true;
 		
-		// DONETODO: xử lý khi Character đứng tại vị trí Bomb
 		Iterator<Character> itr = _board._characters.iterator();
 		Character cur;
 		while(itr.hasNext()) {
 			cur = itr.next();
 			if(cur.getXTile() == _x && cur.getYTile() == _y) cur.kill();
 		}
-		// DONETODO: tạo các Flame
 		_flames = new Flame[4];
 		for (int i = 0 ; i < 4; i++)
 			_flames[i] = new Flame((int) _x, (int) _y, i, Game.getBombRadius(), _board);
@@ -105,10 +103,4 @@ public class Bomb extends AnimatedEntitiy {
 		return null;
 	}
 
-	@Override
-	public boolean collide(Entity e) {
-        // TODO: xử lý khi Bomber đi ra sau khi vừa đặt bom (_allowedToPassThru)
-        // TODO: xử lý va chạm với Flame của Bomb khác
-        return false;
-	}
 }

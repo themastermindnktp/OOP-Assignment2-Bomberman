@@ -39,15 +39,15 @@ public class DestroyableTile extends Tile {
 		_destroyed = true;
 	}
 	
-	@Override
-	public boolean collide(Entity e) {
-		// TODO: xử lý khi va chạm với Flame
-		if (e instanceof FlameSegment) {
-			destroy();
-			return true;
-		}
-		return false;
-	}
+//	@Override
+//	public boolean collide(Entity e) {
+//		// TODO: xử lý khi va chạm với Flame
+//		if (e instanceof FlameSegment) {
+//			destroy();
+//			return true;
+//		}
+//		return false;
+//	}
 	
 	public void addBelowSprite(Sprite sprite) {
 		_belowSprite = sprite;

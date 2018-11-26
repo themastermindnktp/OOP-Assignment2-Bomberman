@@ -9,10 +9,10 @@ public class Portal extends Tile {
 		super(x, y, sprite);
 	}
 	
-	@Override
-	public boolean collide(Entity e) {
-		// TODO: xử lý khi Bomber đi vào
-		return false;
-	}
+//	@Override
+//	public boolean collide(Entity e) {
+//		// TODO: xử lý khi Bomber đi vào
+//		return false;
+//	}
 
 }

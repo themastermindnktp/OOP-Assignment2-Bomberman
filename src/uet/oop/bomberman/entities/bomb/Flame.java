@@ -78,14 +78,10 @@ public class Flame extends Entity {
 	 * @return
 	 */
 	private int calculatePermitedDistance() {
-		// DONETODO: thực hiện tính toán độ dài của Flame
-//		System.out.println(_x + "	" + _y);
 		int radius = Game.getBombRadius();
-		//System.out.println(_x + " " + _y);
 		for (int i = 1; i <= radius; i++) {
 
 			Entity entity = _board.getEntityAt((_x + i*gapX[_direction])*Game.TILES_SIZE, (_y + i*gapY[_direction])*Game.TILES_SIZE );
-			//System.out.println(_direction + " " + (_x + i*gapX[_direction])*Game.TILES_SIZE + " " + (_y + i*gapY[_direction])*Game.TILES_SIZE + " " + entity);
 			if (entity instanceof Portal) return (i - 1);
 			if (entity instanceof LayeredEntity && ((LayeredEntity) entity).getTopEntity() instanceof Brick) return i;
 			if (entity instanceof Wall) return (i - 1);
@@ -111,13 +107,4 @@ public class Flame extends Entity {
 		}
 	}
 
-	@Override
-	public boolean collide(Entity e) {
-		// TODO: xử lý va chạm với Bomber, Enemy. Chú ý đối tượng này có vị trí chính là vị trí của Bomb đã nổ
-		if (e instanceof Character) {
-			((Character) e).kill();
-			return true;
-		}
-		return true;
-	}
 }

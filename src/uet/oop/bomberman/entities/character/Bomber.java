@@ -50,6 +50,7 @@ public class Bomber extends Character {
      */
     protected int _timeBetweenPutBombs = 0;
 
+
     public Bomber(int x, int y, Board board) {
         super(x, y, board);
         _bombs = _board.getBombs();
@@ -112,12 +113,9 @@ public class Bomber extends Character {
     }
 
     protected void placeBomb(int x, int y) {
-        // DONETODO: thực hiện tạo đối tượng bom, đặt vào vị trí (x, y)
         Bomb bomb = new Bomb(x, y, _board);
         _board.addBomb(bomb);
         _onBomb.add(bomb);
-        //System.out.println(x + " " + y + " " + bomb);
-        //System.out.println(_onBomb.indexOf(bomb));
         int xc = Coordinates.tileToPixel(x);
         int yc = Coordinates.tileToPixel(y);
         Iterator<Character> itr = _board._characters.iterator();
@@ -125,7 +123,7 @@ public class Bomber extends Character {
         while(itr.hasNext()) {
             cur = itr.next();
             if (cur instanceof  Enemy)
-                if(xc - 14 <= cur.getX() && cur.getX() <= xc + 14 && yc + 2 <= cur.getY() && yc <= yc + Game.TILES_SIZE + 14)
+                if(xc - 15 <= cur.getX() && cur.getX() <= xc + 15 && yc + 1 <= cur.getY() && cur.getY() <= yc + Game.TILES_SIZE + 15)
                     ((Enemy) cur).addBomb(bomb);
         }
     }
@@ -144,7 +142,6 @@ public class Bomber extends Character {
                     break;
                 }
             }
-            //System.out.println("\t\t" + bomb.getX() + " " + bomb.getY());
             if (out) _onBomb.remove(bomb);
         }
     }
@@ -167,20 +164,20 @@ public class Bomber extends Character {
     public void kill() {
         if (!_alive) return;
         _alive = false;
+        _board.add_live(-1);
     }
 
     @Override
     protected void afterKill() {
         if (_timeAfter > 0) --_timeAfter;
         else {
-            _board.endGame();
+            if (_board.get_live() < 1) _board.endGame();
+            else _board.restartLevel();
         }
     }
 
     @Override
     protected void calculateMove() {
-        // DONETODO: xử lý nhận tín hiệu điều khiển hướng đi từ _input và gọi move() để thực hiện di chuyển
-        // DONETODO: nhớ cập nhật lại giá trị cờ _moving khi thay đổi trạng thái di chuyển
         int dx = 0, dy = 0;
         if(_input.up) dy--;
         if(_input.down) dy++;
@@ -195,7 +192,6 @@ public class Bomber extends Character {
 
     @Override
     public boolean canMove(double dx, double dy) {
-        // DONETODO: kiểm tra có đối tượng tại vị trí chuẩn bị di chuyển đến và có thể di chuyển tới đó hay không
         if (!_alive) return false;
         int direction = _direction;
         if (dy < 0) direction = 0;
@@ -216,15 +212,11 @@ public class Bomber extends Character {
                 FileLevelLoader.emptyCell(_x + gapX2[direction], _y + gapY2[direction], _board));
     }
 
-    public void checkCollide()
-    {
-        //System.out.println();
-        //System.out.println("Position: " + _x + " " + _y);
+    public void checkCollide() {
         for (int corner = 0 ; corner < 4; ++corner)
         {
             double cornerX = _x + gapX3[corner];
             double cornerY = _y + gapY3[corner];
-            //System.out.println("\tCorner: " + cornerX + " " + cornerY);
             for(int i = 0; i < 4; ++i) {
                 int cellX = Coordinates.pixelToTile(cornerX + gapX4[i]);
                 int cellY = Coordinates.pixelToTile(cornerY + gapY4[i]);
@@ -243,7 +235,6 @@ public class Bomber extends Character {
             int cellY = Coordinates.pixelToTile(cornerY);
             Entity entity = _board.getEntity(cellX, cellY, this);
             if (entity instanceof FlameSegment) {
-                //System.out.println(cellX + " " + cellY + " " + entity);
                 kill();
                 return;
             }
@@ -254,21 +245,18 @@ public class Bomber extends Character {
                     Item item = (Item) layeredEntity.getTopEntity();
                     if (item instanceof BombItem) Game.addBombRate(1);
                     if (item instanceof FlameItem) Game.addBombRadius(1);
-                    if (item instanceof SpeedItem) Game.addBomberSpeed(1);
+                    if (item instanceof SpeedItem && Game.getBomberSpeed() == 1) Game.addBomberSpeed(1);
                     item.remove();
                     layeredEntity.update();
                 }
                 if (layeredEntity.getTopEntity() instanceof Portal)
-                    _board.endGame();
+                    _board.nextLevel();
             }
         }
     }
 
     @Override
     public void move(double xa, double ya) {
-        // DONETODO: sử dụng canMove() để kiểm tra xem có thể di chuyển tới điểm đã tính toán hay không và thực hiện thay đổi tọa độ _x, _y
-        // DONETODO: nhớ cập nhật giá trị _direction sau khi di chuyển
-
         if (xa > 0) _direction = 1;
         if (xa < 0) _direction = 3;
         if (ya < 0) _direction = 0;
@@ -284,26 +272,6 @@ public class Bomber extends Character {
 
         }
 
-    }
-
-    @Override
-    public boolean collide(Entity e) {
-        // DONETODO: xử lý va chạm với Flame
-        // DONETODO: xử lý va chạm với Enemy
-        if (e instanceof Enemy) {
-            kill();
-            return true;
-        }
-        if (e instanceof Flame) {
-            this.kill();
-            return true;
-        }
-        if (e instanceof FlameSegment) {
-            this.kill();
-            return true;
-        }
-
-        return false;
     }
 
     private void chooseSprite() {

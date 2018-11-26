@@ -65,11 +65,11 @@ public class FlameSegment extends Entity {
 	@Override
 	public void update() {}
 
-	@Override
-	public boolean collide(Entity e) {
-		// TODO: xử lý khi FlameSegment va chạm với Character
-		return true;
-	}
+//	@Override
+//	public boolean collide(Entity e) {
+//		// TODO: xử lý khi FlameSegment va chạm với Character
+//		return true;
+//	}
 	
 
 }

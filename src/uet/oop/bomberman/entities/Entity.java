@@ -40,12 +40,12 @@ public abstract class Entity implements IRender {
 		return _sprite;
 	}
 
-	/**
-	 * Phương thức này được gọi để xử lý khi hai entity va chạm vào nhau
-	 * @param e
-	 * @return
-	 */
-	public abstract boolean collide(Entity e);
+//	/**
+//	 * Phương thức này được gọi để xử lý khi hai entity va chạm vào nhau
+//	 * @param e
+//	 * @return
+//	 */
+//	public abstract boolean collide(Entity e);
 	
 	public double getX() {
 		return _x;

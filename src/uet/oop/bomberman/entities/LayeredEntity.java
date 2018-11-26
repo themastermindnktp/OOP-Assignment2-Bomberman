@@ -55,10 +55,10 @@ public class LayeredEntity extends Entity {
 		_entities.add(_entities.size() - 1, e);
 	}
 	
-	@Override
-	public boolean collide(Entity e) {
-		// TODO: lấy entity trên cùng ra để xử lý va chạm
-		return false;
-	}
+//	@Override
+//	public boolean collide(Entity e) {
+//		// TODO: lấy entity trên cùng ra để xử lý va chạm
+//		return false;
+//	}
 
 }

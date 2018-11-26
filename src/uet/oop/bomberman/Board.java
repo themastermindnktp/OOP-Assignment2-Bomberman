@@ -37,7 +37,13 @@ public class Board implements IRender {
 	
 	private int _time = Game.TIME;
 	private int _points = Game.POINTS;
-	
+	private int _live = 3;
+
+	private int _previousPoints;
+	private double _previousBomberSpeed;
+	private int _previousBombRate;
+	private int _previousBombRadius;
+
 	public Board(Game game, Keyboard input, Screen screen) {
 		_game = game;
 		_input = input;
@@ -82,7 +88,19 @@ public class Board implements IRender {
 		renderCharacter(screen);
 		
 	}
-	
+
+	public int get_live() { return this._live; }
+
+	public void add_live(int i) { _live += i; }
+
+	public void restartLevel() {
+		_points = _previousPoints;
+		Game.setBomberSpeed(_previousBomberSpeed);
+		Game.setBombRate(_previousBombRate);
+		Game.setBombRadius(_previousBombRadius);
+		loadLevel((_levelLoader.getLevel()));
+	}
+
 	public void nextLevel() {
 		loadLevel(_levelLoader.getLevel() + 1);
 	}
@@ -95,7 +113,11 @@ public class Board implements IRender {
 		_characters.clear();
 		_bombs.clear();
 		_messages.clear();
-		
+		_previousPoints = _points;
+		_previousBomberSpeed = Game.getBomberSpeed();
+		_previousBombRate = Game.getBombRadius();
+		_previousBombRadius = Game.getBombRadius();
+
 		try {
 			_levelLoader = new FileLevelLoader(this, level);
 			_entities = new Entity[_levelLoader.getHeight() * _levelLoader.getWidth()];

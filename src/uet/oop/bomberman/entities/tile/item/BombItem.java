@@ -9,11 +9,11 @@ public class BombItem extends Item {
 		super(x, y, sprite);
 	}
 
-	@Override
-	public boolean collide(Entity e) {
-		// TODO: xử lý Bomber ăn Item
-		return false;
-	}
+//	@Override
+//	public boolean collide(Entity e) {
+//		// TODO: xử lý Bomber ăn Item
+//		return false;
+//	}
 	
 
 
