@@ -60,6 +60,4 @@ public class Message extends Entity {
 	public void render(Screen screen) {
 	}
 
-	
-	
 }

@@ -2,32 +2,31 @@ package uet.oop.bomberman.entities.character.enemy;
 
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.entities.bomb.Bomb;
-import uet.oop.bomberman.entities.character.enemy.ai.AIBalloon;
+import uet.oop.bomberman.entities.character.enemy.ai.AIEasy;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.level.Coordinates;
 import uet.oop.bomberman.level.FileLevelLoader;
 
 public class Balloon extends Enemy {
-	private AIBalloon _ai = new AIBalloon();
+	private AIEasy _ai;
 
 	public Balloon(int x, int y, Board board) {
 		super(x, y, board, Sprite.balloon_dead, 0.5, 100);
 		_sprite = Sprite.balloon_left1;
 		
-		_ai = new AIBalloon();
+		_ai = new AIEasy();
 		_direction = _ai.calculateDirection();
 	}
 
 	@Override
 	public void calculateMove() {
-		int dx = 0, dy = 0;
-		_ai = new AIBalloon();
 		int xi = (int) _x;
 		int yi = (int) _y;
 		if (xi == _x && yi == _y && xi % 16 == 0 && yi % 16 == 0) {
 			_direction = _ai.calculateDirection();
 		}
 
+		int dx = 0, dy = 0;
 		switch (_direction){
 			case 0: dy--; break;
 			case 1: dx++; break;
@@ -35,13 +34,8 @@ public class Balloon extends Enemy {
 			case 3: dx--; break;
 		}
 
-		if (dx != 0 || dy != 0) {
-			_moving = true;
+		if (dx != 0 || dy != 0)
 			move(dx * _speed, dy * _speed);
-		}
-		else _moving = false;
-
-
 	}
 
 	@Override

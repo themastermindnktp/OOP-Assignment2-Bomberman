@@ -3,21 +3,20 @@ package uet.oop.bomberman.entities.character.enemy;
 
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.entities.bomb.Bomb;
-import uet.oop.bomberman.entities.character.enemy.ai.AIBalloon;
-import uet.oop.bomberman.entities.character.enemy.ai.AIOneal;
+import uet.oop.bomberman.entities.character.enemy.ai.AIMedium;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.level.Coordinates;
 import uet.oop.bomberman.level.FileLevelLoader;
 
 public class Oneal extends Enemy {
-	private AIOneal _ai;
+	private AIMedium _ai;
 
 	public Oneal(int x, int y, Board board) {
 		super(x, y, board, Sprite.oneal_dead, 1, 200);
 		
 		_sprite = Sprite.oneal_left1;
 		
-		_ai = new AIOneal(this, _board);
+		_ai = new AIMedium(this, _board);
 		_direction  = 2;
 	}
 
@@ -38,13 +37,8 @@ public class Oneal extends Enemy {
 			case 3: dx--; break;
 		}
 
-		if (dx != 0 || dy != 0) {
-			_moving = true;
+		if (dx != 0 || dy != 0)
 			move(dx * _speed, dy * _speed);
-		}
-		else _moving = false;
-
-
 	}
 
 	@Override

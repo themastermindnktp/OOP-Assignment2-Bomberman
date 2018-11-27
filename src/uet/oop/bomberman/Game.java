@@ -1,6 +1,5 @@
 package uet.oop.bomberman;
 
-import uet.oop.bomberman.audio.BackgroundMusic;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.gui.Frame;
 import uet.oop.bomberman.input.Keyboard;
@@ -18,7 +17,8 @@ public class Game extends Canvas {
 
 	public static final int TILES_SIZE = 16,
 							WIDTH = TILES_SIZE * (31 / 2),
-							HEIGHT = 13 * TILES_SIZE;
+							HEIGHT = 13 * TILES_SIZE,
+							LEVELNUMBER = 5;
 
 	public static int SCALE = 3;
 	

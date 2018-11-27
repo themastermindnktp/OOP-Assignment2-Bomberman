@@ -50,9 +50,5 @@ public class LayeredEntity extends Entity {
 			_entities.removeLast();
 		}
 	}
-	
-	public void addBeforeTop(Entity e) {
-		_entities.add(_entities.size() - 1, e);
-	}
 
 }

@@ -15,7 +15,6 @@ public class Flame extends Entity {
 
 	protected Board _board;
 	protected int _direction;
-	private int _radius;
 	protected int xOrigin, yOrigin;
 	protected FlameSegment[] _flameSegments = new FlameSegment[0];
 
@@ -35,7 +34,6 @@ public class Flame extends Entity {
 		_x = x;
 		_y = y;
 		_direction = direction;
-		_radius = radius;
 		_board = board;
 		createFlameSegments();
 	}
@@ -49,9 +47,6 @@ public class Flame extends Entity {
 		 */
 		int radius = calculatePermitedDistance();
 		_flameSegments = new FlameSegment[radius];
-		/**
-		 * biến last dùng để đánh dấu cho segment cuối cùng
-		 */
 		for (int i = 1; i <= radius; i++) {
 			Entity entity = _board.getEntityAt(Coordinates.tileToPixel(_x + i*gapX[_direction]), Coordinates.tileToPixel(_y + i*gapY[_direction]));
 			if (entity instanceof LayeredEntity) {
@@ -78,7 +73,6 @@ public class Flame extends Entity {
 		for (int i = 1; i <= radius; i++) {
 
 			Entity entity = _board.getEntityAt((_x + i*gapX[_direction])*Game.TILES_SIZE, (_y + i*gapY[_direction])*Game.TILES_SIZE );
-			if (entity instanceof Portal) return (i - 1);
 			if (entity instanceof LayeredEntity)
 				if (((LayeredEntity) entity).getTopEntity() instanceof Brick) return i;
 				else
