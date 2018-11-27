@@ -80,12 +80,8 @@ public class AIHard {
 			Bomb bomb = _board.getBombAt(Coordinates.pixelToTile(xc), Coordinates.pixelToTile(yc));
 			if (bomb != null && _enemy.getOnBomb().indexOf(bomb) != -1) continue;
 			if (FileLevelLoader.emptyCell(xc, yc, _board) && isSafe(Coordinates.pixelToTile(yc), Coordinates.pixelToTile(xc)))
-			{
-				System.out.println(permutation[i]);
 				return permutation[i];
-			}
 		}
-		System.out.println(5);
 		return 5;
 	}
 
