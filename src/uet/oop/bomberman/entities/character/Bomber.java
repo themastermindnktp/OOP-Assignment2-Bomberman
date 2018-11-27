@@ -160,7 +160,7 @@ public class Bomber extends Character {
     @Override
     public void kill() {
         if (!_alive) return;
-        Sound.makeSound("BomberDie");
+        Sound.makeSound("BomberDies");
         _alive = false;
         _board.add_live(-1);
     }

@@ -10,6 +10,7 @@ import uet.oop.bomberman.entities.bomb.Flame;
 import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.entities.character.enemy.Balloon;
 import uet.oop.bomberman.entities.character.enemy.Enemy;
+import uet.oop.bomberman.entities.character.enemy.Kondoria;
 import uet.oop.bomberman.entities.character.enemy.Oneal;
 import uet.oop.bomberman.entities.tile.Grass;
 import uet.oop.bomberman.entities.tile.Portal;
@@ -123,6 +124,12 @@ public class FileLevelLoader extends LevelLoader {
 						break;
 					case '2':
 						_board.addCharacter(new Oneal(Coordinates.tileToPixel(x), Coordinates.tileToPixel(y) + Game.TILES_SIZE, _board));
+						_board.addEntity(pos,
+								new Grass(x, y, Sprite.grass)
+						);
+						break;
+					case '3':
+						_board.addCharacter(new Kondoria(Coordinates.tileToPixel(x), Coordinates.tileToPixel(y) + Game.TILES_SIZE, _board));
 						_board.addEntity(pos,
 								new Grass(x, y, Sprite.grass)
 						);

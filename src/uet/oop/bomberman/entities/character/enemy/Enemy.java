@@ -11,8 +11,6 @@ import uet.oop.bomberman.entities.bomb.Flame;
 import uet.oop.bomberman.entities.bomb.FlameSegment;
 import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.entities.character.Character;
-import uet.oop.bomberman.entities.character.enemy.ai.AI;
-import uet.oop.bomberman.entities.character.enemy.ai.AILow;
 import uet.oop.bomberman.entities.tile.Wall;
 import uet.oop.bomberman.entities.tile.destroyable.Brick;
 import uet.oop.bomberman.graphics.Screen;
@@ -31,7 +29,6 @@ public abstract class Enemy extends Character {
 	protected int _points;
 
 	protected double _speed;
-	protected AI _ai;
 
 	protected final double MAX_STEPS;
 	protected final double rest;
@@ -134,32 +131,6 @@ public abstract class Enemy extends Character {
 		screen.renderEntity((int)_x, (int)_y - _sprite.SIZE, this);
 	}
 
-	@Override
-	public void calculateMove() {
-		int dx = 0, dy = 0;
-		AILow _ai = new AILow();
-		int xi = (int) _x;
-		int yi = (int) _y;
-		if (xi == _x && yi == _y && xi % 16 == 0 && yi % 16 == 0) {
-			_direction = _ai.calculateDirection();
-		}
-
-		switch (_direction){
-			case 0: dy--; break;
-			case 1: dx++; break;
-			case 2: dy++; break;
-			case 3: dx--; break;
-		}
-
-		if (dx != 0 || dy != 0) {
-			_moving = true;
-			move(dx * _speed, dy * _speed);
-		}
-		else _moving = false;
-
-
-	}
-
 	void checkCollide()
 	{
 		for(int corner = 0; corner < 4; ++corner)
@@ -195,7 +166,7 @@ public abstract class Enemy extends Character {
 
 		Message msg = new Message("+" + _points, getXMessage(), getYMessage(), 2, Color.white, 14);
 		_board.addMessage(msg);
-		Sound.makeSound("EnemyDie");
+		Sound.makeSound("EnemyDies");
 	}
 	
 	
@@ -210,4 +181,8 @@ public abstract class Enemy extends Character {
 	}
 	
 	protected abstract void chooseSprite();
+
+	public ArrayList<Bomb> getOnBomb() {
+		return _onBomb;
+	}
 }

@@ -1,34 +1,37 @@
 package uet.oop.bomberman.entities.character.enemy;
 
-
 import uet.oop.bomberman.Board;
+import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.LayeredEntity;
 import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.character.enemy.ai.AIBalloon;
-import uet.oop.bomberman.entities.character.enemy.ai.AIOneal;
+import uet.oop.bomberman.entities.tile.Grass;
+import uet.oop.bomberman.entities.tile.Portal;
+import uet.oop.bomberman.entities.tile.Wall;
+import uet.oop.bomberman.entities.tile.item.Item;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.level.Coordinates;
 import uet.oop.bomberman.level.FileLevelLoader;
 
-public class Oneal extends Enemy {
-	private AIOneal _ai;
+public class Kondoria extends Enemy {
+	private AIBalloon _ai = new AIBalloon();
 
-	public Oneal(int x, int y, Board board) {
-		super(x, y, board, Sprite.oneal_dead, 1, 200);
+	public Kondoria(int x, int y, Board board) {
+		super(x, y, board, Sprite.kondoria_dead, 0.5, 100);
+		_sprite = Sprite.kondoria_left1;
 		
-		_sprite = Sprite.oneal_left1;
-		
-		_ai = new AIOneal(this, _board);
-		_direction  = 2;
+		_ai = new AIBalloon();
+		_direction = _ai.calculateDirection();
 	}
 
 	@Override
 	public void calculateMove() {
 		int dx = 0, dy = 0;
+		_ai = new AIBalloon();
 		int xi = (int) _x;
 		int yi = (int) _y;
 		if (xi == _x && yi == _y && xi % 16 == 0 && yi % 16 == 0) {
 			_direction = _ai.calculateDirection();
-			_speed = _ai.calculateSpeed();
 		}
 
 		switch (_direction){
@@ -53,7 +56,8 @@ public class Oneal extends Enemy {
 		int yc = (int) (y + gapY1[_direction]);
 		Bomb bomb = _board.getBombAt(Coordinates.pixelToTile(xc), Coordinates.pixelToTile(yc));
 		if (bomb != null && _onBomb.indexOf(bomb) == -1) return false;
-		return FileLevelLoader.emptyCell(xc, yc, _board);
+		Entity entity = _board.getEntityAt(xc, yc);
+		return !(entity instanceof Wall);
 	}
 
 	@Override
@@ -61,11 +65,11 @@ public class Oneal extends Enemy {
 		switch(_direction) {
 			case 0:
 			case 1:
-				_sprite = Sprite.movingSprite(Sprite.oneal_right1, Sprite.oneal_right2, Sprite.oneal_right3, _animate, 60);
+				_sprite = Sprite.movingSprite(Sprite.kondoria_right1, Sprite.kondoria_right2, Sprite.kondoria_right3, _animate, 60);
 				break;
 			case 2:
 			case 3:
-				_sprite = Sprite.movingSprite(Sprite.oneal_left1, Sprite.oneal_left2, Sprite.oneal_left3, _animate, 60);
+				_sprite = Sprite.movingSprite(Sprite.kondoria_left1, Sprite.kondoria_left2, Sprite.kondoria_left3, _animate, 60);
 				break;
 		}
 	}

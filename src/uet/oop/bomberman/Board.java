@@ -1,6 +1,7 @@
 package uet.oop.bomberman;
 
 import uet.oop.bomberman.audio.BackgroundMusic;
+import uet.oop.bomberman.audio.Sound;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.Message;
 import uet.oop.bomberman.entities.bomb.Bomb;
@@ -133,8 +134,9 @@ public class Board implements IRender {
 	}
 	
 	protected void detectEndGame() {
-		if(_time <= 0)
+		if(_time < 0)
 		{
+			Sound.makeSound("OutOfTime");
 			add_live(-1);
 			if (_live == 0) endGame();
 			else restartLevel();
