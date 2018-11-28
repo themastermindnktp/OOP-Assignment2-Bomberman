@@ -215,7 +215,7 @@ public class Bomber extends Character {
                 int cellY = Coordinates.pixelToTile(cornerY + gapY4[i]);
 
                 Entity entity = _board.getEntity(cellX, cellY, this);
-                if (entity instanceof Enemy) {
+                if (entity instanceof Enemy && ((Character) entity)._alive) {
                     double cx = entity.getX();
                     double cy = entity.getY();
                     if (_x - Game.TILES_SIZE + 2 <= cx && cx < _x + 10 && _y - 14 <= cy && cy <= _y + Game.TILES_SIZE - 2) {

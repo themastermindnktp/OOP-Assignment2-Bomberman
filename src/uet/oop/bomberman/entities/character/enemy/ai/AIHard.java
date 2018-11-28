@@ -49,16 +49,16 @@ public class AIHard {
 		for(int direction = 0; direction < 4; ++direction)
 		{
 			int u = x, v = y;
-			for(int i = 1; i <= radius; ++i)
+			for(int i = 0; i <= radius; ++i)
 			{
-				u += gapX1[direction];
-				v += gapY1[direction];
 				Bomb bomb = _board.getBombAt(v, u);
 				if (bomb != null) return false;
 				Entity entity = _board.getEntityAt(Coordinates.tileToPixel(v), Coordinates.tileToPixel(u));
 				if (entity instanceof LayeredEntity)
 					if (((LayeredEntity) entity).getTopEntity() instanceof Brick || ((LayeredEntity) entity).getTopEntity() instanceof Portal) break;
 				if (entity instanceof Wall) break;
+				u += gapX1[direction];
+				v += gapY1[direction];
 			}
 		}
 		return true;

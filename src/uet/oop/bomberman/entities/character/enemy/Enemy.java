@@ -124,6 +124,7 @@ public abstract class Enemy extends Character {
 
 	void checkCollide()
 	{
+		if (!_alive) return;
 		for(int corner = 0; corner < 4; ++corner)
 		{
 			int cellX = Coordinates.pixelToTile(_x + gapX2[corner]);

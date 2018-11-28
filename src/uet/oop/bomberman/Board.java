@@ -107,7 +107,10 @@ public class Board implements IRender {
 
 	public void nextLevel() {
 		if (_levelLoader.getLevel() < Game.LEVELNUMBER)
+		{
+			BackgroundMusic.stopMusic();
 			loadLevel(_levelLoader.getLevel() + 1);
+		}
 		else
 		{
 			_screenToShow = 4;
