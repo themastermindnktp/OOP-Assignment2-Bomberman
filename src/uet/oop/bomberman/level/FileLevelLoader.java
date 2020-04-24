@@ -41,7 +41,7 @@ public class FileLevelLoader extends LevelLoader {
 	@Override
 	public void loadLevel(int level) {
 		try {
-			File file = new File("res\\levels\\Level" + new Integer(level).toString() + ".txt");
+			File file = new File("res/levels/Level" + new Integer(level).toString() + ".txt");
 			Scanner scanner = new Scanner(file);
 			_level = scanner.nextInt();
 			_height = scanner.nextInt();
